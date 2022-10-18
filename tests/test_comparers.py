@@ -61,7 +61,7 @@ def test_functional_equivalence_testing_works_with_nones():
     df = spark.createDataFrame(
         [(None, 1), ("Christina", 2)], schema=StructType(fields)
     )
-    assert_frames_functionally_equivalent(spark.range(3), spark.range(1))
+    assert_frames_functionally_equivalent(df, df)
 
 
 def test_functional_equivalence_still_means_same_values():

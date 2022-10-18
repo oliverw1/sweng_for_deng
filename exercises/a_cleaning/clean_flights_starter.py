@@ -37,8 +37,8 @@ def clean(frame: DataFrame) -> DataFrame:
 
 
 if __name__ == "__main__":
-    # use relative paths, so that the location of this project on your system
-    # won't mean editing paths
+    # Use relative paths, so that the location of this project on your system
+    # won't mean editing paths.
     path_to_exercises = Path(__file__).parents[1]
     resources_dir = path_to_exercises / "resources"
     target_dir = path_to_exercises / "target"
@@ -49,7 +49,10 @@ if __name__ == "__main__":
     # Extract
     frame = read_data(resources_dir / "flights")
     # Transform
+    frame.printSchema()
     cleaned_frame = clean(frame)
+    cleaned_frame.printSchema()
+
     # Load
     cleaned_frame.write.parquet(
         path=str(target_dir / "cleaned_flights"),
