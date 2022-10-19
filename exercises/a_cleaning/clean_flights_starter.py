@@ -13,6 +13,13 @@
 from pathlib import Path
 
 from pyspark.sql import SparkSession, DataFrame
+from pyspark.sql import functions as sf
+from pyspark.sql.types import *
+
+
+
+def distinct_frequency(df,string):
+  display(df.groupBy(string).count().withColumnRenamed("count", "Frequency").orderBy(desc("Frequency")))
 
 
 def read_data(path: Path):
@@ -22,7 +29,7 @@ def read_data(path: Path):
         # For a CSV, `inferSchema=False` means every column stays of the string
         # type. There is no time wasted on inferring the schema, which is
         # arguably not something you would depend on in production either.
-        inferSchema=False,
+        inferSchema=True,
         header=True,
         # The dataset mixes two values for null: sometimes there's an empty attribute,
         # which you will see in the CSV file as two neighboring commas. But there are
@@ -33,8 +40,40 @@ def read_data(path: Path):
 
 
 def clean(frame: DataFrame) -> DataFrame:
-    return frame
+    
+    columns_to_drop = ['_c44','YEAR','MONTH','DAY_OF_MONTH']
+    processed_frame = frame.drop(*columns_to_drop)
 
+
+    processed_frame = change_type(processed_frame,'FL_DATE', StringType())
+    return processed_frame
+
+
+
+# gives you a count of nans, nulls, specific string values, etc for each col
+
+def check_null_values(frame: DataFrame):
+    # columns_ = []
+    # for column in frame.columns:
+    #     try:
+    #         sf.isnan(column)
+    #         columns_.append(column)
+
+    #     except :
+    #         pass
+
+    frame = frame.select([sf.count(sf.when(sf.isnan(i) | \
+                                    sf.col(i).contains('NA') | \
+                                    sf.col(i).contains('NULL') | \
+                                    sf.col(i).isNull(), i)).alias(i) \
+                    for i in [column for column in frame.columns if column not in ['FL_DATE'] ]])
+
+
+    
+    frame.show()
+
+def change_type( df, column, imported_type ):
+    return df.withColumn('column', sf.col(column).cast(imported_type))
 
 if __name__ == "__main__":
     # Use relative paths, so that the location of this project on your system
@@ -48,10 +87,16 @@ if __name__ == "__main__":
 
     # Extract
     frame = read_data(resources_dir / "flights")
+    
+
     # Transform
     frame.printSchema()
     cleaned_frame = clean(frame)
     cleaned_frame.printSchema()
+
+    cleaned_frame.show(5)
+
+    check_null_values(cleaned_frame)
 
     # Load
     cleaned_frame.write.parquet(
