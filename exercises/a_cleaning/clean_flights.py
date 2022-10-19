@@ -35,16 +35,10 @@ the kitchen sink.
 from pathlib import Path
 from typing import Collection, Mapping, Union
 
-from pyspark.sql import Column, DataFrame, SparkSession
 import pyspark.sql.functions as psf
-from pyspark.sql.types import (
-    BooleanType,
-    ByteType,
-    DateType,
-    IntegerType,
-    ShortType,
-    StringType,
-)
+from pyspark.sql import Column, DataFrame, SparkSession
+from pyspark.sql.types import (BooleanType, ByteType, DateType, IntegerType,
+                               ShortType, StringType)
 
 ColumnOrStr = Union[Column, str]
 

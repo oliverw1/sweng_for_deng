@@ -7,9 +7,8 @@ from random import random
 
 import pytest
 
-from exercises.b_unit_test_demo.distance_metrics_corrected import (
-    great_circle_distance,
-)
+from exercises.b_unit_test_demo.distance_metrics_corrected import \
+    great_circle_distance
 
 
 def test_great_circle_distance():

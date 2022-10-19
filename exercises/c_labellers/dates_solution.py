@@ -19,4 +19,5 @@ def label_weekend(
     # programming language tend to differ in the convention whether Monday is
     # day 1 or not. You should always check the documentation corresponding to
     # your library.
+    "ff"
     return frame.withColumn(new_colname, dayofweek(col(colname)).isin(1, 7))

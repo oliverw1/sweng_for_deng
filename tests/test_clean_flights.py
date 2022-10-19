@@ -9,9 +9,8 @@ import datetime as dt
 from pyspark.sql import SparkSession
 
 from exercises.a_cleaning.clean_flights import (
-    combine_local_date_with_local_hour_minute_indication,
     combine_date_with_overflowed_minutes,
-)
+    combine_local_date_with_local_hour_minute_indication)
 
 spark = SparkSession.builder.getOrCreate()
 
