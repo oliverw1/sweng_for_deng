@@ -2,5 +2,5 @@ pyspark
 pytest
 holidays
 requests
-precommit
+pre-commit
 -e .
