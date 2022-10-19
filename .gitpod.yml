@@ -7,14 +7,14 @@ github:
     addCheck: false
     addComment: false
     addBadge: false
-    
+
 image:
   file: .gitpod.Dockerfile
-  
+
 ports:
   - port: 4040 # pyspark UI
     onOpen: notify
-    
+
 tasks:
   - name: setup
     init: |
@@ -24,9 +24,9 @@ tasks:
       echo "source $(pwd)/.venv/bin/activate" >> ~/.bashrc
       echo "export PYTHONPATH=$(pwd)" >> ~/.bashrc
       clear
-    command: |  
+    command: |
       source .venv/bin/activate
-      export PYTHONPATH=$(pwd)  
+      export PYTHONPATH=$(pwd)
 
 vscode:
   extensions:
