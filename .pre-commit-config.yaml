@@ -1,0 +1,28 @@
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.3.0
+    hooks:
+    -   id: check-yaml
+    -   id: end-of-file-fixer
+    -   id: trailing-whitespace
+-   repo: https://github.com/psf/black
+    rev: 22.10.0
+    hooks:
+    -   id: black
+-   repo: https://github.com/PyCQA/bandit
+    rev: 1.7.4
+    hooks:
+    -   id: bandit
+        name: Check common Python security issues.
+        description: "Bandit is a tool for finding common security issues in Python code"
+        # There's a bug in bandit's parsing of the exclude files, requiring you to sometimes add with ./, sometimes with /
+        args: [--quiet, --exclude, "./.venv/*,./tests/*,tests/*,test_", --recursive, -l]
+        entry: bandit
+        language: python
+        language_version: python3
+        types: [python]
+-   repo: https://github.com/PyCQA/isort
+    rev: 5.10.1
+    hooks:
+    -   id: isort
+        args: ["--profile","black","--filter-files"]

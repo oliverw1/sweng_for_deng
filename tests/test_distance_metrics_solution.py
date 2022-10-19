@@ -7,9 +7,7 @@ from random import random
 
 import pytest
 
-from exercises.b_unit_test_demo.distance_metrics_corrected import (
-    great_circle_distance,
-)
+from exercises.b_unit_test_demo.distance_metrics_corrected import great_circle_distance
 
 
 def test_great_circle_distance():
@@ -36,7 +34,7 @@ def test_positive_distances():
     """A distance is always postive"""
 
     result = great_circle_distance(
-        latitude1=180*random() - 90,
+        latitude1=180 * random() - 90,
         longitude1=random(),
         latitude2=random(),
         longitude2=random(),
@@ -72,19 +70,13 @@ def test_the_distance_function_is_commutative():
     # using mathematical notation: latitude ∈ [-90°, +90°], longitude ∈ [-180°, +180°)
     # The function `random` generates a number ∈ [0, 1), which you can transform to
     # such ranges (small exception for the +90° angle here which will be non-inclusive).
-    pointA, pointB = (
-        (random() * 180 - 90, random() * 360 - 180) for _ in range(2)
-    )
+    pointA, pointB = ((random() * 180 - 90, random() * 360 - 180) for _ in range(2))
 
-    distanceAB = great_circle_distance(
-        pointA[0], pointA[1], pointB[0], pointB[1]
-    )
-    distanceBA = great_circle_distance(
-        pointB[0], pointB[1], pointA[0], pointA[1]
-    )
+    distanceAB = great_circle_distance(pointA[0], pointA[1], pointB[0], pointB[1])
+    distanceBA = great_circle_distance(pointB[0], pointB[1], pointA[0], pointA[1])
     with pytest.raises(TypeError):
         result = great_circle_distance("a", 1, 1, 1)
-    #math.abs(distanceBA - distanceAB) < 1e-8
+    # math.abs(distanceBA - distanceAB) < 1e-8
     assert distanceAB == pytest.approx(distanceBA)
 
 

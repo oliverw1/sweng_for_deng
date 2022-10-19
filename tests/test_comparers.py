@@ -1,6 +1,6 @@
 import pytest
 from pyspark.sql import SparkSession
-from pyspark.sql.types import StructField, StringType, IntegerType, StructType
+from pyspark.sql.types import IntegerType, StringType, StructField, StructType
 
 from .comparers import assert_frames_functionally_equivalent
 
@@ -58,9 +58,7 @@ def test_functional_equivalence_testing_works_with_nones():
         StructField("age", IntegerType(), True),
     ]
 
-    df = spark.createDataFrame(
-        [(None, 1), ("Christina", 2)], schema=StructType(fields)
-    )
+    df = spark.createDataFrame([(None, 1), ("Christina", 2)], schema=StructType(fields))
     assert_frames_functionally_equivalent(df, df)
 
 
