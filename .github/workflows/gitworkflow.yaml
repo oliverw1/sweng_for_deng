@@ -24,6 +24,8 @@ jobs:
       - name: Test with pytest
         run: |
           pytest
+        env:
+          PYTHONPATH=./:$PYTHONPATH
       - name: Run the precommit hooks
         run: |
           pre-commit run --all-files

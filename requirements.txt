@@ -3,4 +3,3 @@ pytest
 holidays
 requests
 pre-commit
--e .
