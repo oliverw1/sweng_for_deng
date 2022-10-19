@@ -35,8 +35,8 @@ the kitchen sink.
 from pathlib import Path
 from typing import Collection, Mapping, Union
 
-from pyspark.sql import Column, DataFrame, SparkSession
 import pyspark.sql.functions as psf
+from pyspark.sql import Column, DataFrame, SparkSession
 from pyspark.sql.types import (
     BooleanType,
     ByteType,
@@ -118,9 +118,7 @@ def naive_clean(frame: DataFrame) -> DataFrame:
         .withColumn("DAY_OF_MONTH", psf.col("DAY_OF_MONTH").cast(ByteType()))
         .withColumn("DAY_OF_WEEK", psf.col("DAY_OF_WEEK").cast(ByteType()))
         .withColumn("FL_DATE", psf.col("FL_DATE").cast(DateType()))
-        .withColumn(
-            "UNIQUE_CARRIER", psf.col("UNIQUE_CARRIER").cast(StringType())
-        )
+        .withColumn("UNIQUE_CARRIER", psf.col("UNIQUE_CARRIER").cast(StringType()))
         .withColumn("TAIL_NUM", psf.col("TAIL_NUM").cast(StringType()))
         .withColumn(
             "FL_NUM", psf.col("FL_NUM").cast(ShortType())
@@ -129,26 +127,16 @@ def naive_clean(frame: DataFrame) -> DataFrame:
             "ORIGIN_AIRPORT_ID", psf.col("ORIGIN_AIRPORT_ID").cast(ShortType())
         )  # values are between 10k-17K
         .withColumn("ORIGIN", psf.col("ORIGIN").cast(StringType()))
-        .withColumn(
-            "ORIGIN_STATE_ABR", psf.col("ORIGIN_STATE_ABR").cast(StringType())
-        )
-        .withColumn(
-            "DEST_AIRPORT_ID", psf.col("DEST_AIRPORT_ID").cast(IntegerType())
-        )
+        .withColumn("ORIGIN_STATE_ABR", psf.col("ORIGIN_STATE_ABR").cast(StringType()))
+        .withColumn("DEST_AIRPORT_ID", psf.col("DEST_AIRPORT_ID").cast(IntegerType()))
         .withColumn("DEST", psf.col("DEST").cast(StringType()))
-        .withColumn(
-            "DEST_STATE_ABR", psf.col("DEST_STATE_ABR").cast(StringType())
-        )
+        .withColumn("DEST_STATE_ABR", psf.col("DEST_STATE_ABR").cast(StringType()))
         .withColumn("CRS_DEP_TIME", psf.col("CRS_DEP_TIME").cast(StringType()))
         .withColumn("DEP_TIME", psf.col("DEP_TIME").cast(StringType()))
         .withColumn("DEP_DELAY", psf.col("DEP_DELAY").cast(ShortType()))
-        .withColumn(
-            "DEP_DELAY_NEW", psf.col("DEP_DELAY_NEW").cast(ShortType())
-        )
+        .withColumn("DEP_DELAY_NEW", psf.col("DEP_DELAY_NEW").cast(ShortType()))
         .withColumn("DEP_DEL15", psf.col("DEP_DEL15").cast(ShortType()))
-        .withColumn(
-            "DEP_DELAY_GROUP", psf.col("DEP_DELAY_GROUP").cast(ShortType())
-        )
+        .withColumn("DEP_DELAY_GROUP", psf.col("DEP_DELAY_GROUP").cast(ShortType()))
         .withColumn("TAXI_OUT", psf.col("TAXI_OUT").cast(ShortType()))
         .withColumn("WHEELS_OFF", psf.col("WHEELS_OFF").cast(StringType()))
         .withColumn("WHEELS_ON", psf.col("WHEELS_ON").cast(StringType()))
@@ -156,13 +144,9 @@ def naive_clean(frame: DataFrame) -> DataFrame:
         .withColumn("CRS_ARR_TIME", psf.col("CRS_ARR_TIME").cast(StringType()))
         .withColumn("ARR_TIME", psf.col("ARR_TIME").cast(StringType()))
         .withColumn("ARR_DELAY", psf.col("ARR_DELAY").cast(ShortType()))
-        .withColumn(
-            "ARR_DELAY_NEW", psf.col("ARR_DELAY_NEW").cast(ShortType())
-        )
+        .withColumn("ARR_DELAY_NEW", psf.col("ARR_DELAY_NEW").cast(ShortType()))
         .withColumn("ARR_DEL15", psf.col("ARR_DEL15").cast(ShortType()))
-        .withColumn(
-            "ARR_DELAY_GROUP", psf.col("ARR_DELAY_GROUP").cast(ShortType())
-        )
+        .withColumn("ARR_DELAY_GROUP", psf.col("ARR_DELAY_GROUP").cast(ShortType()))
         .withColumn(
             "IS_CANCELLED",  # that's a personal preference: whenever I see a
             # boolean column, I believe it answers the question is_... or has_...
@@ -179,18 +163,14 @@ def naive_clean(frame: DataFrame) -> DataFrame:
             "IS_DIVERTED",  # same explanation as CANCELLED
             psf.col("DIVERTED").cast(IntegerType()).cast(BooleanType()),
         )
-        .withColumn(
-            "CRS_ELAPSED_TIME", psf.col("CRS_ELAPSED_TIME").cast(ShortType())
-        )
+        .withColumn("CRS_ELAPSED_TIME", psf.col("CRS_ELAPSED_TIME").cast(ShortType()))
         .withColumn(
             "ACTUAL_ELAPSED_TIME",
             psf.col("ACTUAL_ELAPSED_TIME").cast(ShortType()),
         )
         .withColumn("AIR_TIME", psf.col("AIR_TIME").cast(ShortType()))
         .withColumn("FLIGHTS", psf.col("FLIGHTS").cast(ByteType()))
-        .withColumn(
-            "DISTANCE_IN_MILES", psf.col("DISTANCE").cast(IntegerType())
-        )
+        .withColumn("DISTANCE_IN_MILES", psf.col("DISTANCE").cast(IntegerType()))
         .withColumn(
             "DISTANCE_GROUP", psf.col("DISTANCE_GROUP").cast(ByteType())
         )  # values between 1-11 (DISTANCE_IN_MILES by 250 mile groups)
@@ -257,9 +237,7 @@ def naive_clean(frame: DataFrame) -> DataFrame:
     ):
         df3 = df3.withColumn(
             colname,
-            combine_date_with_overflowed_minutes(
-                flight_date_col, df3[colname]
-            ),
+            combine_date_with_overflowed_minutes(flight_date_col, df3[colname]),
         )
     # ARR_DELAY, ARR_DELAY_NEW and ARR_DEL15 are derived columns.
     # They're the result of the formulas:
@@ -361,9 +339,7 @@ def correct_datatypes(frame: DataFrame) -> DataFrame:
 
     for datatype, colnames in mapping.items():
         for colname in colnames:
-            frame = frame.withColumn(
-                colname, psf.col(colname).cast(datatype())
-            )
+            frame = frame.withColumn(colname, psf.col(colname).cast(datatype()))
 
     for column_name in ("CANCELLED", "DIVERTED"):
         # Spark can "automatically" convert values like 1 and 0, even "y" and "n" to bool, but not 1.0 and 0.0
@@ -385,9 +361,7 @@ def combine_date_with_time_with_graceful_time_overflow(
     return frame.withColumn(
         time_col,
         psf.when(frame[time_col] == 2400, psf.date_add(date_col, 1)).otherwise(
-            combine_local_date_with_local_hour_minute_indication(
-                date_col, time_col
-            )
+            combine_local_date_with_local_hour_minute_indication(date_col, time_col)
         ),
     )
 
@@ -495,9 +469,7 @@ def lowercase_column_names(frame: DataFrame) -> DataFrame:
     return batch_rename_columns(frame, mapping)
 
 
-def batch_rename_columns(
-    df: DataFrame, mapping: Mapping[str, str]
-) -> DataFrame:
+def batch_rename_columns(df: DataFrame, mapping: Mapping[str, str]) -> DataFrame:
     for old_name, new_name in mapping.items():
         df = df.withColumnRenamed(old_name, new_name)
     return df
