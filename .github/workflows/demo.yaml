@@ -18,6 +18,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install pytest
           if [ -f dev-requirements.txt ]; then pip install -r dev-requirements.txt; fi
+      - name: Run pre-commit hooks
+        run: |
+          pre-commit run --all-files
       - name: Test with pytest
         run: |
-          pytest
+          pytest --cov
