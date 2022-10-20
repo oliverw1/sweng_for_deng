@@ -1,6 +1,6 @@
 import pytest
 from pyspark.sql import SparkSession
-from pyspark.sql.types import StructField, StringType, IntegerType, StructType
+from pyspark.sql.types import IntegerType, StringType, StructField, StructType
 
 from .comparers import assert_frames_functionally_equivalent
 

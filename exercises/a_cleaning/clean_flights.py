@@ -15,28 +15,27 @@
 # * While your job is running, open up the Spark UI and get a feel for what's
 #   there (together with the instructor).
 # For explanations on the columns, check https://www.transtats.bts.gov/Fields.asp?gnoyr_VQ=FGK
-"""
-The main point of this exercise is to realize that a good choice of data types
-can go a long way to make a dataset more self descriptive, less ambiguous, and
-that work you do in the clean layer of a data lake is work someone else will
-not have to perform again (often faulty).
+"""The main point of this exercise is to realize that a good choice of data
+types can go a long way to make a dataset more self descriptive, less
+ambiguous, and that work you do in the clean layer of a data lake is work
+someone else will not have to perform again (often faulty).
 
-You must make an assumption about which fields add value for the majority of
-your downstream users and which are only noise (example: in the dataset given,
-I would not trust DEP_DELAY, and simply recompute it as the difference between
-DEP_TIME and CRS_DEP_TIME).
-Additionally, in a clean layer, try to avoid duplicity: having a proper date
-column for events, means you shouldn't bother adding a column for year, month,
-day of month and all kinds of derived features. When someone really needs that
-in their business project (the data lake zone after the clean zone), they'll
-generate those. Don't assume you need to give downstream users everything but
-the kitchen sink.
+You must make an assumption about which fields add value for the
+majority of your downstream users and which are only noise (example: in
+the dataset given, I would not trust DEP_DELAY, and simply recompute it
+as the difference between DEP_TIME and CRS_DEP_TIME). Additionally, in a
+clean layer, try to avoid duplicity: having a proper date column for
+events, means you shouldn't bother adding a column for year, month, day
+of month and all kinds of derived features. When someone really needs
+that in their business project (the data lake zone after the clean
+zone), they'll generate those. Don't assume you need to give downstream
+users everything but the kitchen sink.
 """
 from pathlib import Path
 from typing import Collection, Mapping, Union
 
-from pyspark.sql import Column, DataFrame, SparkSession
 import pyspark.sql.functions as psf
+from pyspark.sql import Column, DataFrame, SparkSession
 from pyspark.sql.types import (
     BooleanType,
     ByteType,
@@ -282,9 +281,12 @@ def to_bool(
     c: str, true_values: Collection[str], false_values: Collection[str]
 ) -> Column:
     """If the values in the column named c match any of the values in the
-    collection of true_values, the value will become True. Otherwise, if it
-    matches any of those in the Collection of false_Values, it will convert the
-    value to False. If neither matches, return null."""
+    collection of true_values, the value will become True.
+
+    Otherwise, if it matches any of those in the Collection of
+    false_Values, it will convert the value to False. If neither
+    matches, return null.
+    """
     return psf.when(psf.col(c).isin(true_values), True).otherwise(
         psf.when(psf.col(c).isin(false_values), False)
     )

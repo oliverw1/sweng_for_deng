@@ -4,7 +4,7 @@
 
 ## Context
 
-These are the exercises used in the course *Software Engineering for data 
+These are the exercises used in the course *Software Engineering for data
 engineers*, developed by instructors at Data Minded. The exercises are meant
 to be completed in the lexicographical order determined by name of their
 parent folders. That is, exercises inside the folder `b_foo` should be
@@ -42,8 +42,8 @@ progress.
 
 There is a high degree of participation expected from the students: they
 will need to write code themselves and reason on topics, so that they can
-better retain the knowledge. 
-  
+better retain the knowledge.
+
 Participants are recommended to be working on a branch for any changes they
 make, to avoid conflicts (otherwise the onus is on the participant), as the
 instructors may choose to release an update to the current branch.

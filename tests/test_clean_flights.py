@@ -1,16 +1,16 @@
-"""
-This test module is not meant to be an exhaustive test suite for
-clean_flights.py. Rather, it is there to give you an understanding how the two
-functions that deal with the decoupled time indication deal with the task at
-hand.
+"""This test module is not meant to be an exhaustive test suite for
+clean_flights.py.
+
+Rather, it is there to give you an understanding how the two functions
+that deal with the decoupled time indication deal with the task at hand.
 """
 import datetime as dt
 
 from pyspark.sql import SparkSession
 
 from exercises.a_cleaning.clean_flights import (
-    combine_local_date_with_local_hour_minute_indication,
     combine_date_with_overflowed_minutes,
+    combine_local_date_with_local_hour_minute_indication,
 )
 
 spark = SparkSession.builder.getOrCreate()
@@ -18,8 +18,7 @@ spark = SparkSession.builder.getOrCreate()
 
 def test_combine_date_with_minutes_overflows_for_values_over2400():
     """The function combine_date_with_minutes works fine for well-behaved
-    values, but fails for time indications over 2400 (incl.).
-    """
+    values, but fails for time indications over 2400 (incl.)."""
     df = spark.createDataFrame(
         [
             ("2020-12-31", "340", dt.datetime(2020, 12, 31, 3, 40, 0)),
@@ -42,8 +41,7 @@ def test_combine_date_with_minutes_overflows_for_values_over2400():
 
 def test_combine_date_with_overflowed_minutes():
     """The function combine_date_with_overflowed_minutes can handle time values
-    over 2400 (though it won't properly handle DST switches, so beware).
-    """
+    over 2400 (though it won't properly handle DST switches, so beware)."""
     # Fortunately, DST behavior is not the goal of the exercise
     # Also, note that it won't work for values over 9999 either (can you see
     # why and do you see a way to remedy this?)

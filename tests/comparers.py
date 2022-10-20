@@ -6,10 +6,8 @@ from pyspark.sql import DataFrame
 def assert_frames_functionally_equivalent(
     df1: DataFrame, df2: DataFrame, check_nullability=True
 ):
-    """
-    Validate if two non-nested dataframes have identical schemas, and data,
-    ignoring the ordering of both.
-    """
+    """Validate if two non-nested dataframes have identical schemas, and data,
+    ignoring the ordering of both."""
     # This is what we call an “early-out”: here it is computationally cheaper
     # to validate that two things are not equal, rather than finding out that
     # they are equal.

@@ -33,10 +33,10 @@ def test_great_circle_distance():
 
 
 def test_positive_distances():
-    """A distance is always postive"""
+    """A distance is always postive."""
 
     result = great_circle_distance(
-        latitude1=180*random() - 90,
+        latitude1=180 * random() - 90,
         longitude1=random(),
         latitude2=random(),
         longitude2=random(),
@@ -66,8 +66,8 @@ def test_zero_length_distances():
 
 
 def test_the_distance_function_is_commutative():
-    """The distance from point A to point B (different from A) is
-    the same as the distance from B to A."""
+    """The distance from point A to point B (different from A) is the same as
+    the distance from B to A."""
     # Latitudes go from -90° to +90°. Longitudes from -180° to +180° (non incl.)
     # using mathematical notation: latitude ∈ [-90°, +90°], longitude ∈ [-180°, +180°)
     # The function `random` generates a number ∈ [0, 1), which you can transform to
@@ -84,13 +84,13 @@ def test_the_distance_function_is_commutative():
     )
     with pytest.raises(TypeError):
         result = great_circle_distance("a", 1, 1, 1)
-    #math.abs(distanceBA - distanceAB) < 1e-8
+    # math.abs(distanceBA - distanceAB) < 1e-8
     assert distanceAB == pytest.approx(distanceBA)
 
 
 def test_non_trivial_great_circle_distance():
-    """The distance between any pole to a location on the equator, should
-    equal a quarter of the circle with a radius of the sphere."""
+    """The distance between any pole to a location on the equator, should equal
+    a quarter of the circle with a radius of the sphere."""
     # If you forgot your high school math: the circumference of a circle is
     # given by 2*pi*radius
     northpole = (90, -22)  # on the poles, longitude has no meaning
