@@ -26,4 +26,5 @@ jobs:
           pre-commit run --all-files
       - name: Test with pytest
         run: |
-          pytest --cov
+          # Calling python -m pytest instead of simply `pytest` will put the current folder on the PYTHONPATH.
+          python -m pytest --cov

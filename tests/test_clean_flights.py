@@ -6,17 +6,13 @@ that deal with the decoupled time indication deal with the task at hand.
 """
 import datetime as dt
 
-from pyspark.sql import SparkSession
-
 from exercises.a_cleaning.clean_flights import (
     combine_date_with_overflowed_minutes,
     combine_local_date_with_local_hour_minute_indication,
 )
 
-spark = SparkSession.builder.getOrCreate()
 
-
-def test_combine_date_with_minutes_overflows_for_values_over2400():
+def test_combine_date_with_minutes_overflows_for_values_over2400(spark):
     """The function combine_date_with_minutes works fine for well-behaved
     values, but fails for time indications over 2400 (incl.)."""
     df = spark.createDataFrame(
@@ -39,7 +35,7 @@ def test_combine_date_with_minutes_overflows_for_values_over2400():
     assert out.filter(out["result"].eqNullSafe(out["expected"])).count() == 4
 
 
-def test_combine_date_with_overflowed_minutes():
+def test_combine_date_with_overflowed_minutes(spark):
     """The function combine_date_with_overflowed_minutes can handle time values
     over 2400 (though it won't properly handle DST switches, so beware)."""
     # Fortunately, DST behavior is not the goal of the exercise

@@ -1,13 +1,10 @@
 import pytest
-from pyspark.sql import SparkSession
 from pyspark.sql.types import IntegerType, StringType, StructField, StructType
 
 from .comparers import assert_frames_functionally_equivalent
 
-spark = SparkSession.builder.master("local[*]").getOrCreate()
 
-
-def test_non_equal_frames_not_functionally_equivalent():
+def test_non_equal_frames_not_functionally_equivalent(spark):
     frame1 = spark.createDataFrame([(1,), (2,)])
     frame2 = spark.createDataFrame([(1,), (2,), (2,)])
 
@@ -15,12 +12,12 @@ def test_non_equal_frames_not_functionally_equivalent():
         assert_frames_functionally_equivalent(frame1, frame2)
 
 
-def test_identical_frames_are_identical():
+def test_identical_frames_are_identical(spark):
     df = spark.range(1)
     assert_frames_functionally_equivalent(df, df)
 
 
-def test_column_order_is_irrelevant_for_functional_equivalence():
+def test_column_order_is_irrelevant_for_functional_equivalence(spark):
     fields = [
         StructField("name", StringType(), True),
         StructField("age", IntegerType(), True),
@@ -35,7 +32,7 @@ def test_column_order_is_irrelevant_for_functional_equivalence():
     assert_frames_functionally_equivalent(frame1, frame2)
 
 
-def test_ordering_of_data_is_irrelevant_for_functional_equivalence():
+def test_ordering_of_data_is_irrelevant_for_functional_equivalence(spark):
     fields = [
         StructField("name", StringType(), True),
         StructField("age", IntegerType(), True),
@@ -50,7 +47,7 @@ def test_ordering_of_data_is_irrelevant_for_functional_equivalence():
     assert_frames_functionally_equivalent(frame1, frame2)
 
 
-def test_functional_equivalence_testing_works_with_nones():
+def test_functional_equivalence_testing_works_with_nones(spark):
     # in Python 3, None is not sortable wrt to other types,
     # i.e. None < 3 errors out
     fields = [
@@ -64,7 +61,7 @@ def test_functional_equivalence_testing_works_with_nones():
     assert_frames_functionally_equivalent(df, df)
 
 
-def test_functional_equivalence_still_means_same_values():
+def test_functional_equivalence_still_means_same_values(spark):
     df1 = spark.createDataFrame([("a", "b")])
     df2 = spark.createDataFrame([("a", "c")])
 
