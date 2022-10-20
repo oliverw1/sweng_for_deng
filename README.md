@@ -1,4 +1,4 @@
-# Building solid data pipelines with PySpark
+# Software engineering for data workers
 
 📚 A course brought to you by the [Data Minded Academy].
 
@@ -26,21 +26,19 @@ progress.
 
 # Course objectives
 
-- Introduce good data engineering practices.
+- Introduce good software engineering practices.
 - Illustrate modular and easily testable data transformation pipelines using
   PySpark.
-- Illustrate CI/CD tools
+- Illustrate tools helping you to achieve CI/CD.
 
 # Intended audience
 
-- People working with (Py)Spark or soon to be working with it.
+- People with working experience with the Python programming language.
+  Knowledge of basics of PySpark is ideal, though not required.
 - Familiar with Python functions, variables and the container data types of
   `list`, `tuple`, `dict`, and `set`.
 
 # Approach
-
-Lecturer first sets the foundations right for Python development and
-gradually builds up to PySpark data pipelines.
 
 There is a high degree of participation expected from the students: they
 will need to write code themselves and reason on topics, so that they can
@@ -56,6 +54,13 @@ should be suitable for the level of the participants.
 
 ## Exercises
 
+### Common business case 1: cleaning data
+
+Using the information you've learned about clean coding practices, prepare a
+sizeable dataset for storage in "the clean zone" of a data lake, by
+implementing the `clean` function of
+[clean_flights_starter.py](exercises/h_cleansers/clean_flights_starter.py).
+
 ### Warm-up: thinking critically about tests
 
 Glance at the file
@@ -65,12 +70,6 @@ writing at least two useful tests, one of which should prove that the code, as
 it is, is wrong.
 
 ### Adding derived columns
-
-Check out [dates.py](exercises/c_labellers/dates.py) and implement the pure
-python function `is_belgian_holiday`. verify your correct implementation by
-running the test `test_pure_python_function` from
-[test_labellers](tests/test_labellers.py). you could do this from the command
-line with `pytest tests/test_labellers.py::test_pure_python_function`.
 
 With that implemented, it's time to take a step back and think about how one
 would compare data that might be distributed over different machines. Implement
@@ -85,27 +84,6 @@ implement `label_weekend`. Again, run the related test from
 [test_labellers.py](tests/test_labellers.py). It might be more useful to you if
 you first read the test.
 
-Finally, implement `label_holidays` from [dates](exercises/c_labellers/dates.py). 
-As before, run the relevant test to verify a few easy cases (keep in mind that 
-few tests are exhaustive: it's typically easier to prove something is wrong, 
-than that something is right).
-
-If you're making great speed, try to think of an alternative implementation 
-to `label_holidays` and discuss pros and cons.
-
-### (Optional) Get in the habit of writing test
-
-Have a look at [date_helper.py](exercises/d_laziness/date_helper.py). Explain the intent of the
-author. Which two key aspects to Spark's processing did the author forget? If 
-you can't answer this, run `test_date_helper_doesnt_work_as_intended` from 
-[test_laziness.py](exercises/d_laziness/test_laziness.py). Now write an alternative to the 
-`convert_date` function that does do what the author intended.
-
-### Common business case 1: cleaning data
-
-Using the information seen in the videos, prepare a sizeable dataset for 
-storage in "the clean zone" of a data lake, by implementing the `clean` 
-function of [clean_flights_starter.py](exercises/h_cleansers/clean_flights_starter.py).
 
 [this gitpod]: https://gitpod.io/#https://github.com/oliverw1/sweng_for_deng
 [gitpod logo]: https://gitpod.io/button/open-in-gitpod.svg

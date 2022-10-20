@@ -1,4 +1,2 @@
-pyspark
-pytest
-holidays
-requests
+pyspark==3.2.0
+pytest==7.1.3

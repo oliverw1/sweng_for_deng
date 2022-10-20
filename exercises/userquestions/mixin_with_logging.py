@@ -47,7 +47,9 @@ xy.logger.warning(
 xyz.logger.warning("from xyz")
 
 
-# Note: you shouldn't assign a logger as an instance variable to a class. That's because these loggers are the same! So a class attribute would actually make some sense here. But even then, loggers are singletons,
+# Note: you shouldn't assign a logger as an instance variable to a class. That's
+# because these loggers are the same! So a class attribute would actually make
+# some sense here. But even then, loggers are singletons,
 
 abc = Point3D(0, 0, 0)
 print(abc.logger is xyz.logger)
